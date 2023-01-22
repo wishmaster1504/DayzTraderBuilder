@@ -43,11 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\BuilderConfig.cs" />
+    <Compile Include="Classes\MD5info.cs" />
+    <Compile Include="Classes\TraderFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticFunc\StaticFunctions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Templates\MD5SUM.config" />
+    <None Include="Templates\TraderBuilder.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Info\PrInfo.txt" />

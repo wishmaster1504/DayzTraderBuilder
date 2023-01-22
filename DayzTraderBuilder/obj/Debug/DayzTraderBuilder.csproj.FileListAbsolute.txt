@@ -1,0 +1,8 @@
+G:\GitHub\DayzTraderCreater\DayzTraderBuilder\bin\Debug\DayzTraderBuilder.exe.config
+G:\GitHub\DayzTraderCreater\DayzTraderBuilder\bin\Debug\DayzTraderBuilder.exe
+G:\GitHub\DayzTraderCreater\DayzTraderBuilder\bin\Debug\DayzTraderBuilder.pdb
+G:\GitHub\DayzTraderCreater\DayzTraderBuilder\obj\Debug\DayzTraderBuilder.csproj.AssemblyReference.cache
+G:\GitHub\DayzTraderCreater\DayzTraderBuilder\obj\Debug\DayzTraderBuilder.csproj.SuggestedBindingRedirects.cache
+G:\GitHub\DayzTraderCreater\DayzTraderBuilder\obj\Debug\DayzTraderBuilder.csproj.CoreCompileInputs.cache
+G:\GitHub\DayzTraderCreater\DayzTraderBuilder\obj\Debug\DayzTraderBuilder.exe
+G:\GitHub\DayzTraderCreater\DayzTraderBuilder\obj\Debug\DayzTraderBuilder.pdb
