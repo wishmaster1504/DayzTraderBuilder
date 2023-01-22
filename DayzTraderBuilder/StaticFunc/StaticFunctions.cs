@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace DayzTraderBuilder.StaticFunc
         // создание или обновление файла с суммами MD5
         public static void CreateOrUpdateMD5(BuilderConfig builderConfig) {
 
-            string md5filePath = $"{builderConfig.PathTraderFiles}{builderConfig.Md5FileName}";
+            string md5filePath = $"{builderConfig.ConfigPath}{builderConfig.Md5FileName}";
 
             try
             {
@@ -67,5 +68,60 @@ namespace DayzTraderBuilder.StaticFunc
 
         }
 
+        
+        // Создание файла трейдера
+        public static void CreateTraderFile(BuilderConfig builderConfig)
+        {
+            // файл TraderConfig.txt
+            string targetFilePath = $"{builderConfig.ConfigPath}{builderConfig.MainFileName}";
+
+            try
+            {
+
+                FileStream fs = File.Create(targetFilePath);
+                fs.SetLength(0); // очистка файла
+
+                StreamWriter sw = new StreamWriter(fs);
+
+                sw.WriteLine("\t\t/////////////////////////////////////////////////////////////////////////////////////////////////");
+                sw.WriteLine("        //                                                                                             //");
+                sw.WriteLine("        //      Need Help? The Trader Mod has its own Channel on the DayZ Modders Discord Server!      //");
+                sw.WriteLine("        //                                                                                             //");
+                sw.WriteLine("        //      Only Singleline Comments work. Don't use Multiline Comments!                           //");
+                sw.WriteLine("        //      /* THIS COMMENT WILL CRASH THE SERVER! */                                              //");
+                sw.WriteLine("        //      // THIS COMMENT WORKS!                                                                 //"); 
+                sw.WriteLine("        //                                                                                             //");
+                sw.WriteLine("        /////////////////////////////////////////////////////////////////////////////////////////////////");
+                sw.WriteLine("// Quantity * means max value; Quantity V means Vehicle; Quantity M means Magazine; Quantity W means Weapon; Quantity S means Steack Meat"); 
+
+                foreach(var item in builderConfig.TraderFiles)
+                {
+                    // открываем файл, читаем и пишем
+                    try
+                    {
+                        FileStream fromF = File.Open(item.Path, FileMode.Open,FileAccess.Read);
+                        StreamReader sr = new StreamReader(fromF);
+
+                        while (!sr.EndOfStream)
+                        {
+                           string s = sr.ReadLine();
+                           sw.WriteLine(s);
+                        }
+                        fromF.Close();     
+                    }
+                    catch
+                    {
+                        //
+                    }
+
+                }
+
+                sw.WriteLine("<FileEnd>\t\t\t\t\t\t\t\t\t\t\t\t// This has to be on the End of this File and is very importan");
+
+                sw.Close();
+            }
+            catch { }
+
+        }
     }
 }

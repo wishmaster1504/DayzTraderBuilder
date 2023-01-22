@@ -28,14 +28,20 @@ namespace DayzTraderBuilder.Classes
         public string PathCopyTo { get; set; }
 
         public string Md5FileName = "MD5SUM.config";
+        // путь к файлу конфига, сюда же будем трейд формировать
+        public string ConfigPath { get; set; }
+        public string ConfigFullPath { get; set; }
 
         // создаем объект класса
         // если пришел путь к конфиг файлу из-вне (без имени файла но с последней наклонной чертой)
         public BuilderConfig(string _path)
         {
+            ConfigPath = _path; 
+            ConfigFullPath = $"{_path}TraderBuilder.config";// Path + TraderBuilder.config
+
 
             // Читаем конфиг файл TraderBuilder.config
-            NeedCreateNewTraderFile = ReadCfgFile(_path);
+            NeedCreateNewTraderFile = ReadCfgFile(ConfigFullPath);
 
         }
 
@@ -145,7 +151,7 @@ namespace DayzTraderBuilder.Classes
         private List<MD5info> GetListLastMd5Sum()
         {
             List<MD5info> mD5Infos= new List<MD5info>();
-            string fullPath = $"{PathTraderFiles}{Md5FileName}";
+            string fullPath = $"{ConfigPath}{Md5FileName}";
 
             if (!File.Exists(fullPath)) return mD5Infos; // нет файла, значит первый запуск
 

@@ -18,19 +18,19 @@ namespace DayzTraderBuilder
             {
                 // если прислали путь к фалу конфига
                 string path = args[0];
+                //string fullPath = $"{path}TraderBuilder.config";
                 Console.WriteLine("[INFO] Загружается конфиг из файла:");
                 Console.WriteLine(path);
                 
                 config = new BuilderConfig(path);
             }
             else
-            {
-
+            { 
                 string curPath = $"{Environment.CurrentDirectory}/";
                 // имя файла конфига по умолчанию с путем
-                string fullPath = $"{curPath}TraderBuilder.config";
+                //string fullPath = $"{curPath}TraderBuilder.config";
 
-                config = new BuilderConfig(fullPath);
+                config = new BuilderConfig(curPath);
             }
 
 
@@ -44,6 +44,7 @@ namespace DayzTraderBuilder
             }
 
             // функция создания файла и его заполнение (пихаем сюда config)
+            StaticFunc.StaticFunctions.CreateTraderFile(config);
 
             // Создание или пересоздание файла MD5
             StaticFunc.StaticFunctions.CreateOrUpdateMD5(config);
