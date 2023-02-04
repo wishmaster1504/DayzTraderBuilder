@@ -1,10 +1,8 @@
 ﻿using DayzTraderBuilder.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-  
+using System; 
+using System.Linq; 
+using System.IO;
+
 
 namespace DayzTraderBuilder
 {
@@ -49,6 +47,17 @@ namespace DayzTraderBuilder
             // Создание или пересоздание файла MD5
             StaticFunc.StaticFunctions.CreateOrUpdateMD5(config);
 
+
+            // Копируем созданный файл в указанные директории
+            if (config.PathCopyTo.Count> 0 )
+            {
+                foreach (var path in config.PathCopyTo)
+                {
+                    File.Copy($"{config.ConfigPath}{config.MainFileName}", $"{path}{config.MainFileName}",true);
+                }
+
+                
+            }
 
             Console.ReadKey();
         }

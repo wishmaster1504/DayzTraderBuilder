@@ -99,7 +99,7 @@ namespace DayzTraderBuilder.StaticFunc
                     // открываем файл, читаем и пишем
                     try
                     {
-                        FileStream fromF = File.Open(item.Path, FileMode.Open,FileAccess.Read);
+                        FileStream fromF = File.Open(item.Path, FileMode.Open,FileAccess.Read, FileShare.Read);
                         StreamReader sr = new StreamReader(fromF);
 
                         while (!sr.EndOfStream)
@@ -123,5 +123,8 @@ namespace DayzTraderBuilder.StaticFunc
             catch { }
 
         }
+
+
+       
     }
 }

@@ -25,7 +25,7 @@ namespace DayzTraderBuilder.Classes
         // флаг надо ли создавать новый файл трейдера
         public bool NeedCreateNewTraderFile = false;
         // Куда копируем собранный файл трейдера
-        public string PathCopyTo { get; set; }
+        public List<string> PathCopyTo { get; set; } = new List<string>();
 
         public string Md5FileName = "MD5SUM.config";
         // путь к файлу конфига, сюда же будем трейд формировать
@@ -91,7 +91,12 @@ namespace DayzTraderBuilder.Classes
 
                     if (node.Name == "PathCopyTo")
                     {
-                        PathCopyTo = node.InnerText;
+                        //PathCopyTo = node.InnerText;
+                        foreach (XmlNode childnode in node.ChildNodes)
+                        {
+                            string tmpStr = childnode.InnerText;
+                            PathCopyTo.Add(tmpStr);
+                        }
                     }
 
                     if (node.Name == "FilesList")
@@ -131,6 +136,11 @@ namespace DayzTraderBuilder.Classes
             // Если список пришел пустой, значит запускаем 1-й раз
             // Надо создавать файл трейдера
             if (mD5s.Count == 0) return true;
+
+            // Если изменилось количество трейдеров в конфиге
+            // (удален или добавлен)
+            // надо пересоздать
+            if (mD5s.Count != TraderFiles.Count) return true;
 
             // проверим по каждому трейд файлу, что
             // сумма md5 для него есть
