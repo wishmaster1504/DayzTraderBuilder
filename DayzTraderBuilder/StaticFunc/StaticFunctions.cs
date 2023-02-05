@@ -1,4 +1,5 @@
 ﻿using DayzTraderBuilder.Classes;
+using DayzTraderBuilder.MyLoggerClass;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,7 +31,7 @@ namespace DayzTraderBuilder.StaticFunc
         }
 
         // создание или обновление файла с суммами MD5
-        public static void CreateOrUpdateMD5(BuilderConfig builderConfig) {
+        public static void CreateOrUpdateMD5(BuilderConfig builderConfig, MyLogger _logger) {
 
             string md5filePath = $"{builderConfig.ConfigPath}{builderConfig.Md5FileName}";
 
@@ -60,21 +61,22 @@ namespace DayzTraderBuilder.StaticFunc
             catch {
 
                 // если свалилось, значит уже кто то пишет
-                // тогда этот процесс не пишет
-                Console.WriteLine("[INFO] Не удалось создать или открыть файл.");
-                Console.WriteLine("[INFO] Возможно файл занят другим процессом.");
-                Console.WriteLine("[INFO] Не сохраняем");
+                // тогда этот процесс не пишет 
+                _logger.Info("Не удалось создать или открыть файл.");
+                _logger.Info($"{md5filePath}");
+                _logger.Info("Возможно файл занят другим процессом");
+                _logger.Info("Не сохраняем. Забиваем ХУЙ");
             }
 
         }
 
         
         // Создание файла трейдера
-        public static void CreateTraderFile(BuilderConfig builderConfig)
+        public static void CreateTraderFile(BuilderConfig builderConfig, MyLogger _logger)
         {
             // файл TraderConfig.txt
             string targetFilePath = $"{builderConfig.ConfigPath}{builderConfig.MainFileName}";
-
+            int rowNumber = 0;
             try
             {
 
@@ -104,6 +106,7 @@ namespace DayzTraderBuilder.StaticFunc
 
                         while (!sr.EndOfStream)
                         {
+                           rowNumber ++;
                            string s = sr.ReadLine();
                            sw.WriteLine(s);
                         }
@@ -112,6 +115,9 @@ namespace DayzTraderBuilder.StaticFunc
                     catch
                     {
                         //
+                        _logger.Error("Ошибка записи в файл трейдера.");
+                        _logger.Error($"Копировался файл: {item.Path}");
+                        _logger.Error($"Строка номер: {rowNumber}");
                     }
 
                 }
@@ -120,7 +126,10 @@ namespace DayzTraderBuilder.StaticFunc
 
                 sw.Close();
             }
-            catch { }
+            catch {
+                _logger.Error("Ошибка Создания файла.");
+                _logger.Error($"Файл: {targetFilePath}");
+            }
 
         }
 

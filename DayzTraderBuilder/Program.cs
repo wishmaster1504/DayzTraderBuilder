@@ -2,7 +2,7 @@
 using System; 
 using System.Linq; 
 using System.IO;
-
+using DayzTraderBuilder.MyLoggerClass;
 
 namespace DayzTraderBuilder
 {
@@ -11,55 +11,66 @@ namespace DayzTraderBuilder
         static void Main(string[] args)
         {
             BuilderConfig config;
+            MyLogger myLogger;
+            string configPath;
+
+            Console.WriteLine("[INFO] Начало работы программы");
 
             if (args.Count() > 0)
             {
                 // если прислали путь к фалу конфига
-                string path = args[0];
+                configPath = args[0];
                 //string fullPath = $"{path}TraderBuilder.config";
                 Console.WriteLine("[INFO] Загружается конфиг из файла:");
-                Console.WriteLine(path);
-                
-                config = new BuilderConfig(path);
+                Console.WriteLine(configPath);
+                 
             }
             else
-            { 
-                string curPath = $"{Environment.CurrentDirectory}/";
+            {
+                configPath = $"{Environment.CurrentDirectory}\\";
                 // имя файла конфига по умолчанию с путем
                 //string fullPath = $"{curPath}TraderBuilder.config";
-
-                config = new BuilderConfig(curPath);
+                 
             }
 
+            // создаем логгер
+            myLogger = new MyLogger(configPath);
+            myLogger.Info("Начало работы программы");
 
-              
+            // объект конфига
+            config = new BuilderConfig(configPath, myLogger);
+
 
             if (!config.NeedCreateNewTraderFile)
-            {
-                Console.WriteLine("[INFO] Произошла ошибка либо не было изменений в файлах трейдера");
-                Console.WriteLine("[INFO] Пересоздание файла не выполняется. Выход из программы.");
+            { 
+                myLogger.Info("Произошла ошибка либо не было изменений в файлах трейдера.");
+                myLogger.Info("Пересоздание файла не выполняется. Выход из программы.");
                 return;
             }
 
             // функция создания файла и его заполнение (пихаем сюда config)
-            StaticFunc.StaticFunctions.CreateTraderFile(config);
+            myLogger.Info("Начинаем собирать файл трейдера.");
+            StaticFunc.StaticFunctions.CreateTraderFile(config, myLogger);
 
             // Создание или пересоздание файла MD5
-            StaticFunc.StaticFunctions.CreateOrUpdateMD5(config);
+            myLogger.Info("Создание/пересоздание файла с MD5.");
+            StaticFunc.StaticFunctions.CreateOrUpdateMD5(config, myLogger);
 
-
+            
             // Копируем созданный файл в указанные директории
             if (config.PathCopyTo.Count> 0 )
             {
+                myLogger.Info("Копирование собранного файла трейдера в директории назначения.");
                 foreach (var path in config.PathCopyTo)
                 {
+                    if(!System.IO.Directory.Exists(path)) { System.IO.Directory.CreateDirectory(path); } // создадим если нет папки
                     File.Copy($"{config.ConfigPath}{config.MainFileName}", $"{path}{config.MainFileName}",true);
                 }
 
                 
             }
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

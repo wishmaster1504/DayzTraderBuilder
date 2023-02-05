@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DayzTraderBuilder.MyLoggerClass;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,13 +33,15 @@ namespace DayzTraderBuilder.Classes
         public string ConfigPath { get; set; }
         public string ConfigFullPath { get; set; }
 
+        private MyLogger logger;
+
         // создаем объект класса
         // если пришел путь к конфиг файлу из-вне (без имени файла но с последней наклонной чертой)
-        public BuilderConfig(string _path)
+        public BuilderConfig(string _path, MyLogger _myLogger)
         {
             ConfigPath = _path; 
             ConfigFullPath = $"{_path}TraderBuilder.config";// Path + TraderBuilder.config
-
+            logger = _myLogger;
 
             // Читаем конфиг файл TraderBuilder.config
             NeedCreateNewTraderFile = ReadCfgFile(ConfigFullPath);
@@ -52,8 +55,8 @@ namespace DayzTraderBuilder.Classes
              
             if (!File.Exists(fullPath))
             {
-                Console.WriteLine("[ERROR] Файл настроек не найден");
-                Console.WriteLine($"[FILE:] {fullPath}");
+                logger.Error("Файл настроек не найден");
+                logger.Error($"[FILE:] {fullPath}"); 
                 return false; // файл трейдера не пересобираем
             }
 
@@ -65,8 +68,8 @@ namespace DayzTraderBuilder.Classes
             }
             catch {
                 // не смогли разобрать конфиг или найти файлы
-                Console.WriteLine("[ERROR] Ошибка чтения конфиг файла");
-                Console.WriteLine($"[FILE:] {fullPath}");
+                logger.Error("Ошибка чтения конфиг файла");
+                logger.Error($"[FILE:] {fullPath}");
                 return false; // файл трейдера не пересобираем
             }
              
@@ -120,9 +123,9 @@ namespace DayzTraderBuilder.Classes
             {
                 if (item.Md5 == string.Empty)
                 {
-                    Console.WriteLine("[ERROR] Не смогли определить сумму MD5 по файлу");
-                    Console.WriteLine("[ERROR] Указанный файл отсутствует. Исправьте конфиг или добавьте файл");
-                    Console.WriteLine($"[FILE:] {item.Path}");
+                    logger.Error("Не смогли определить сумму MD5 по файлу");
+                    logger.Error("Указанный файл отсутствует. Исправьте конфиг или добавьте файл");
+                    logger.Error($"[FILE:] {item.Path}");
                     return false; // файл трейдера не пересобираем
                 }
             }

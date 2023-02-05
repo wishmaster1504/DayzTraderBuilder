@@ -46,6 +46,7 @@
     <Compile Include="Classes\BuilderConfig.cs" />
     <Compile Include="Classes\MD5info.cs" />
     <Compile Include="Classes\TraderFile.cs" />
+    <Compile Include="MyLoggerClass\MyLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticFunc\StaticFunctions.cs" />
