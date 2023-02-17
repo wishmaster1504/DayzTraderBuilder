@@ -25,7 +25,7 @@ namespace DayzTraderBuilder.MyLoggerClass
 
             // Добавить проход по папке LogFilePath
             // и удалять файлы старше, например, 3-х дней
-            //DltOldLogs();
+            DltOldLogs(LogFilePath);
 
             try
             {
@@ -94,8 +94,28 @@ namespace DayzTraderBuilder.MyLoggerClass
         }
          
         // удаление лог файлов из папки
-        private void DltOldLogs()
+        private void DltOldLogs(string _logPath)
         {
+            if (!System.IO.Directory.Exists(LogFilePath)) { return; } // нет папки - на выход
+
+            string[] allfiles = Directory.GetFiles(_logPath, "*.txt");
+
+            var curDate = DateTime.Now;
+
+            foreach(string file in allfiles)
+            {
+                // получим дату создания файла
+                var fileDate = System.IO.File.GetCreationTime(file);
+                // разница дат
+                var diff = curDate - fileDate; 
+                // разница в часах
+                var diffhours = diff.TotalHours;
+                // старше 24 часов -  удаляем
+                if(diffhours > 24) {
+                    File.Delete(file);
+                }
+
+            }
 
         }
 

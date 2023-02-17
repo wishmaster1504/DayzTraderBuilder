@@ -33,7 +33,12 @@ namespace DayzTraderBuilder.StaticFunc
         // создание или обновление файла с суммами MD5
         public static void CreateOrUpdateMD5(BuilderConfig builderConfig, MyLogger _logger) {
 
+            _logger.Info("Старт работы функции CreateOrUpdateMD5");
+
             string md5filePath = $"{builderConfig.ConfigPath}{builderConfig.Md5FileName}";
+
+            _logger.Info("Создание файла MD5");
+            _logger.Info(md5filePath);
 
             try
             {
@@ -45,8 +50,9 @@ namespace DayzTraderBuilder.StaticFunc
                 sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>"); 
                 sw.WriteLine("<configuration>");
 
+                _logger.Info("Файл создан. Пишем суммы MD5");
 
-                foreach(var item in builderConfig.TraderFiles)
+                foreach (var item in builderConfig.TraderFiles)
                 {
                     string md5 = GetMd5Sum(item.Path);
                     // <TraderCurrency.txt>MD5SUM</TraderCurrency.txt>
@@ -68,14 +74,21 @@ namespace DayzTraderBuilder.StaticFunc
                 _logger.Info("Не сохраняем. Забиваем ХУЙ");
             }
 
+            _logger.Info("Конец работы функции CreateOrUpdateMD5");
         }
 
         
         // Создание файла трейдера
         public static void CreateTraderFile(BuilderConfig builderConfig, MyLogger _logger)
         {
+            _logger.Info("Начало работы функции CreateTraderFile");
+
             // файл TraderConfig.txt
             string targetFilePath = $"{builderConfig.ConfigPath}{builderConfig.MainFileName}";
+
+            _logger.Info("Создаем файл трейдера");
+            _logger.Info($"File => {targetFilePath}");
+
             int rowNumber = 0;
             try
             {
@@ -130,6 +143,8 @@ namespace DayzTraderBuilder.StaticFunc
                 _logger.Error("Ошибка Создания файла.");
                 _logger.Error($"Файл: {targetFilePath}");
             }
+
+            _logger.Info("Конец работы функции CreateTraderFile");
 
         }
 

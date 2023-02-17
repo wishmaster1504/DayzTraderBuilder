@@ -14,7 +14,7 @@ namespace DayzTraderBuilder
             MyLogger myLogger;
             string configPath;
 
-            Console.WriteLine("[INFO] Начало работы программы");
+             
 
             if (args.Count() > 0)
             {
@@ -35,7 +35,10 @@ namespace DayzTraderBuilder
 
             // создаем логгер
             myLogger = new MyLogger(configPath);
-            myLogger.Info("Начало работы программы");
+            myLogger.Info("-----Начало работы программы-----");
+
+            myLogger.Info($"ConfigPath={configPath}");
+
 
             // объект конфига
             config = new BuilderConfig(configPath, myLogger);
@@ -49,26 +52,31 @@ namespace DayzTraderBuilder
             }
 
             // функция создания файла и его заполнение (пихаем сюда config)
-            myLogger.Info("Начинаем собирать файл трейдера.");
+            myLogger.Info("-----Начинаем собирать файл трейдера.-----");
             StaticFunc.StaticFunctions.CreateTraderFile(config, myLogger);
 
             // Создание или пересоздание файла MD5
-            myLogger.Info("Создание/пересоздание файла с MD5.");
+            myLogger.Info("-----Создание/пересоздание файла с MD5.-----");
             StaticFunc.StaticFunctions.CreateOrUpdateMD5(config, myLogger);
 
             
             // Копируем созданный файл в указанные директории
             if (config.PathCopyTo.Count> 0 )
             {
-                myLogger.Info("Копирование собранного файла трейдера в директории назначения.");
+                myLogger.Info("-----Копирование собранного файла трейдера в директории назначения.-----");
+                 
                 foreach (var path in config.PathCopyTo)
                 {
-                    if(!System.IO.Directory.Exists(path)) { System.IO.Directory.CreateDirectory(path); } // создадим если нет папки
+                    myLogger.Info($"CopyTo => {path}");
+                    if (!System.IO.Directory.Exists(path)) { System.IO.Directory.CreateDirectory(path); } // создадим если нет папки
                     File.Copy($"{config.ConfigPath}{config.MainFileName}", $"{path}{config.MainFileName}",true);
                 }
 
                 
             }
+
+
+            myLogger.Info("-----Конец работы программы-----");
 
             //Console.ReadKey();
         }
