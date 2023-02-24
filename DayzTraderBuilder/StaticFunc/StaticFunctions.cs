@@ -107,9 +107,30 @@ namespace DayzTraderBuilder.StaticFunc
                 sw.WriteLine("        //      // THIS COMMENT WORKS!                                                                 //"); 
                 sw.WriteLine("        //                                                                                             //");
                 sw.WriteLine("        /////////////////////////////////////////////////////////////////////////////////////////////////");
-                sw.WriteLine("// Quantity * means max value; Quantity V means Vehicle; Quantity M means Magazine; Quantity W means Weapon; Quantity S means Steack Meat"); 
+                sw.WriteLine("// Quantity * means max value; Quantity V means Vehicle; Quantity M means Magazine; Quantity W means Weapon; Quantity S means Steack Meat");
 
-                foreach(var item in builderConfig.TraderFiles)
+                sw.WriteLine("        // When changing Prices here keep in Mind that Players");
+                sw.WriteLine("        // can just unpack the Ammoboxes and sell the Ammo separately!");
+                sw.WriteLine("        // Originally the Ammoboxes buying Price is 20% less than");
+                sw.WriteLine("        // buying single Ammo. The Selling Price is the same as");
+                sw.WriteLine("        // selling the Ammo separately.");
+                sw.WriteLine("        //");
+                sw.WriteLine("        // <Trader Name>  (first Trader has ID = 0, second Trader has ID = 1, and so on..)");
+                sw.WriteLine("        // <Category Name>");
+                sw.WriteLine("        // Item Classname, Quantity, Buyvalue, Sellvalue");
+                sw.WriteLine("        //");
+                sw.WriteLine("        // Quantity * means max value; ");
+                sw.WriteLine("        // Quantity V means Vehicle;");
+                sw.WriteLine("        // Quantity VNK means Vehicle without Key;");
+                sw.WriteLine("        // Quantity M means Magazine;");
+                sw.WriteLine("        // Quantity W means Weapon;");
+                sw.WriteLine("        // Quantity S means Steack Meat;");
+                sw.WriteLine("        // Quantity K means Key Duplication");
+                sw.WriteLine("        // Buyvalue -1 means it can not be bought");
+                sw.WriteLine("        // Sellvalue -1 means it can not be selled");
+                sw.WriteLine("        /////////////////////////////////////////////////////////////////////////////////////////////////");
+
+                foreach (var item in builderConfig.TraderFiles)
                 {
                     // открываем файл, читаем и пишем
                     try
