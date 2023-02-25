@@ -59,7 +59,7 @@ namespace DayzTraderBuilder.MyLoggerClass
         public void Info(string _message)
         {
             if (!FileIsCreated) return; 
-            File.AppendAllText(FullPath, $"INFO: {_message}\r\n", Encoding.GetEncoding("Windows-1251"));
+            File.AppendAllText(FullPath, $"{DateTime.Now} : INFO : {_message}\r\n", Encoding.GetEncoding("Windows-1251"));
 
         }
 
@@ -67,13 +67,13 @@ namespace DayzTraderBuilder.MyLoggerClass
         public void Error(string _message)
         { 
             if (!FileIsCreated) return; 
-            File.AppendAllText(FullPath, $"ERROR: {_message}\r\n", Encoding.GetEncoding("Windows-1251"));
+            File.AppendAllText(FullPath, $"{DateTime.Now} : ERROR: {_message}\r\n", Encoding.GetEncoding("Windows-1251"));
         }
         // сообщение об успехе
         public void Done(string _message)
         {
             if (!FileIsCreated) return; 
-            File.AppendAllText(FullPath, $"DONE: {_message}\r\n", Encoding.GetEncoding("Windows-1251"));
+            File.AppendAllText(FullPath, $"{DateTime.Now} : DONE : {_message}\r\n", Encoding.GetEncoding("Windows-1251"));
         }
 
         public void Debug(string _message)
@@ -81,7 +81,7 @@ namespace DayzTraderBuilder.MyLoggerClass
             if (!FileIsCreated) return;
 #if DEBUG
             // сделал флаг, что бы в дебаге можно было отключать спам сообщений  
-            File.AppendAllText(FullPath, $"DEBUG: {_message}\r\n", Encoding.GetEncoding("Windows-1251"));
+            File.AppendAllText(FullPath, $"{DateTime.Now} : DEBUG: {_message}\r\n", Encoding.GetEncoding("Windows-1251"));
 #endif
 
 
@@ -90,7 +90,7 @@ namespace DayzTraderBuilder.MyLoggerClass
         public void Msg(string _message)
         {
             if (!FileIsCreated) return; 
-            File.AppendAllText(FullPath, $"{_message}\r\n", Encoding.GetEncoding("Windows-1251"));
+            File.AppendAllText(FullPath, $"{DateTime.Now} : {_message}\r\n", Encoding.GetEncoding("Windows-1251"));
         }
          
         // удаление лог файлов из папки
